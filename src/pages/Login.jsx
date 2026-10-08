@@ -35,61 +35,69 @@ export default function Login() {
   }
 
   return (
-    <main className="auth-container">
-      <section className="auth-card">
-        <h1>Bienvenido</h1>
+    <div className="simple-auth-page">
+      <div className="simple-auth-card">
+        {/* BRANDING HEADER */}
+        <div className="auth-brand-simple">
+          <div className="simple-logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <span className="brand-name-text">Secure App</span>
+        </div>
 
-        <p>Inicia sesión en SecureWeb</p>
+        <div className="auth-card-title-group">
+          <h1>BIENVENIDO</h1>
+          <p>Ingresa tus datos para acceder a tu cuenta</p>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="correo">
-            Correo electrónico
-          </label>
+        <form onSubmit={handleSubmit} className="simple-form">
+          <div className="simple-input-field">
+            <label htmlFor="correo">Correo electrónico</label>
+            <input
+              id="correo"
+              type="email"
+              value={correo}
+              onChange={(event) => setCorreo(event.target.value)}
+              placeholder="tu@correo.com"
+              autoComplete="email"
+              required
+              disabled={cargando}
+            />
+          </div>
 
-          <input
-            id="correo"
-            type="email"
-            value={correo}
-            onChange={(event) => setCorreo(event.target.value)}
-            placeholder="tu@correo.com"
-            autoComplete="email"
-            required
-            disabled={cargando}
-          />
-
-          <label htmlFor="contrasena">
-            Contraseña
-          </label>
-
-          <input
-            id="contrasena"
-            type="password"
-            value={contrasena}
-            onChange={(event) => setContrasena(event.target.value)}
-            placeholder="Escribe tu contraseña"
-            autoComplete="current-password"
-            required
-            disabled={cargando}
-          />
+          <div className="simple-input-field">
+            <label htmlFor="contrasena">Contraseña</label>
+            <input
+              id="contrasena"
+              type="password"
+              value={contrasena}
+              onChange={(event) => setContrasena(event.target.value)}
+              placeholder="Escribe tu contraseña"
+              autoComplete="current-password"
+              required
+              disabled={cargando}
+            />
+          </div>
 
           {error && (
-            <p className="error-message">
-              {error}
-            </p>
+            <div className="simple-error-badge">
+              <span>⚠ {error}</span>
+            </div>
           )}
 
-          <button type="submit" disabled={cargando}>
+          <button type="submit" className="simple-submit-btn" disabled={cargando}>
             {cargando ? "Iniciando sesión..." : "Iniciar sesión"}
           </button>
         </form>
 
-        <p className="auth-footer">
+        <p className="simple-auth-footer">
           ¿No tienes una cuenta?{" "}
-          <Link to="/register">
-            Regístrate
-          </Link>
+          <Link to="/register">Regístrate en Secure App</Link>
         </p>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 }

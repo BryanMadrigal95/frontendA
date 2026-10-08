@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -200,442 +200,233 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="dash-layout">
-      {/* SIDEBAR IZQUIERDO */}
-      <aside className="dash-sidebar">
-        <div className="dash-brand">
-          <div className="dash-brand-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-          </div>
-          <div className="dash-brand-info">
-            <span className="dash-brand-title">SECUREWEB</span>
-            <span className="dash-brand-subtitle">Gestión de Seguridad</span>
-          </div>
-        </div>
-
-        {/* NAVEGACIÓN */}
-        <nav className="dash-nav">
-          <a href="#dashboard" className="dash-nav-item active">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="3" width="7" height="7"></rect>
-              <rect x="14" y="3" width="7" height="7"></rect>
-              <rect x="14" y="14" width="7" height="7"></rect>
-              <rect x="3" y="14" width="7" height="7"></rect>
-            </svg>
-            <span>Dashboard</span>
-          </a>
-          <a href="#usuarios" className="dash-nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-            </svg>
-            <span>Gestión de Usuarios</span>
-          </a>
-          <a href="#seguridad" className="dash-nav-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            <span>Token de Seguridad</span>
-          </a>
-        </nav>
-
-        {/* PIE DEL SIDEBAR (PERFIL CON ROL REAL) */}
-        <div className="dash-sidebar-footer">
-          <div className="dash-user-badge">
-            <div className="dash-avatar">{inicial}</div>
-            <div className="dash-user-text">
-              <span className="dash-user-name">{nombreUsuario}</span>
-              <span className={"dash-user-role-badge role-" + rolUsuario}>
-                {rolUsuario}
-              </span>
+    <div className="app-container">
+      {/* HEADER NAVEGACIÓN SENCILLO */}
+      <header className="app-header">
+        <div className="header-wrapper">
+          <div className="app-logo">
+            <div className="logo-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
             </div>
+            <span className="logo-text">Secure App</span>
           </div>
-          <button className="dash-logout-btn" onClick={handleLogout}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
-            <span>Cerrar Sesión</span>
-          </button>
-        </div>
-      </aside>
 
-      {/* ÁREA PRINCIPAL DERECHA */}
-      <main className="dash-main">
-        {/* ENCABEZADO SUPERIOR */}
-        <header className="dash-topbar">
-          <div>
-            <h1 className="dash-topbar-title">Panel de Control</h1>
-            <p className="dash-topbar-subtitle">
-              {esAdmin ? "Modo Administrador Activo - Control Total de Usuarios" : "Bienvenido al sistema seguro SecureWeb"}
+          <nav className="header-nav">
+            <a href="#overview" className="nav-link active">Dashboard</a>
+            <a href="#usuarios" className="nav-link">Usuarios</a>
+            <a href="#token" className="nav-link">Token JWT</a>
+          </nav>
+
+          <div className="header-user">
+            <div className="user-pill">
+              <div className="avatar">{inicial}</div>
+              <div className="user-meta">
+                <span className="user-name">{nombreUsuario}</span>
+                <span className={"user-role role-" + rolUsuario}>{rolUsuario}</span>
+              </div>
+            </div>
+
+            <button className="logout-btn" onClick={handleLogout} title="Cerrar sesión">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* CONTENIDO PRINCIPAL */}
+      <main className="app-main">
+        {mensajeExito && (
+          <div className="simple-alert success">
+            <span>✔ {mensajeExito}</span>
+          </div>
+        )}
+
+        {error && (
+          <div className="simple-alert error">
+            <span>⚠ {error}</span>
+          </div>
+        )}
+
+        {/* HERO BIENVENIDO */}
+        <section id="overview" className="welcome-banner">
+          <div className="welcome-content">
+            <h1>BIENVENIDO, {nombreUsuario.toUpperCase()}</h1>
+            <p>
+              {esAdmin
+                ? "Panel de administración activo — Tienes permisos para gestionar usuarios en Secure App."
+                : "Bienvenido a Secure App. Explora tu panel de control y token de acceso."}
             </p>
           </div>
-          <div className="dash-lock-badge">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path fillRule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clipRule="evenodd" />
-            </svg>
-            <span>Conexión Protegida TLS/SSL</span>
+          <div className="welcome-badge-role">
+            <span className={"badge-pill tag-" + rolUsuario}>
+              {esAdmin ? "★ Administrador" : "● Usuario"}
+            </span>
           </div>
-        </header>
+        </section>
 
-        <div className="dash-body">
-          {/* MENSAJES DE ALERTA O ÉXITO */}
-          {mensajeExito && (
-            <div className="dash-alert success">
-              <span>✔ {mensajeExito}</span>
+        {/* METRICAS SENCILLAS */}
+        <section className="stats-row">
+          <div className="stat-card">
+            <span className="stat-label">Total Usuarios</span>
+            <span className="stat-value">{estadisticas.total || usuariosLista.length || 1}</span>
+            <span className="stat-sub">En base de datos</span>
+          </div>
+
+          <div className="stat-card">
+            <span className="stat-label">Administradores</span>
+            <span className="stat-value">{estadisticas.admins || 1}</span>
+            <span className="stat-sub">Permisos avanzados</span>
+          </div>
+
+          <div className="stat-card">
+            <span className="stat-label">Estado de Token</span>
+            <span className="stat-value text-indigo">Activo</span>
+            <span className="stat-sub">Cifrado JWT</span>
+          </div>
+        </section>
+
+        {/* TABLA DE USUARIOS SENCILLA */}
+        <section id="usuarios" className="content-card">
+          <div className="card-header">
+            <div>
+              <h2>Usuarios Registrados ({usuariosLista.length})</h2>
+              <p>Cuentas registradas en el sistema</p>
             </div>
-          )}
+          </div>
 
-          {error && (
-            <div className="dash-alert error">
-              <span>⚠ {error}</span>
-            </div>
-          )}
+          <div className="table-responsive">
+            <table className="clean-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Rol</th>
+                  {esAdmin && <th style={{ textAlign: "center" }}>Acciones</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {usuariosLista.map((u) => {
+                  const uInicial = u.nombre ? u.nombre.charAt(0).toUpperCase() : "U";
+                  const esMiPropioUsuario = u.id === idUsuarioActual;
 
-          {/* SALUDO CON ROL REAL */}
-          <section className="dash-welcome">
-            <div className="dash-welcome-row">
-              <h2>Bienvenido de vuelta, {nombreUsuario}</h2>
-              <span className={"welcome-role-tag tag-" + rolUsuario}>
-                {esAdmin ? "★ Administrador" : "● Usuario Estándar"}
-              </span>
-            </div>
-          </section>
-
-          {/* TARJETAS DE MÉTRICAS */}
-          <section className="dash-metrics-grid">
-            <div className="dash-metric-card">
-              <div className="dash-metric-icon bg-celeste-light text-celeste">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-              </div>
-              <div className="dash-metric-details">
-                <span className="dash-metric-label">Total Usuarios BD</span>
-                <span className="dash-metric-value">{estadisticas.total || usuariosLista.length || 1}</span>
-                <span className="dash-metric-badge badge-green">● Sincronizado MySQL</span>
-              </div>
-            </div>
-
-            <div className="dash-metric-card">
-              <div className="dash-metric-icon bg-blue-soft text-blue">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                  <path d="m9 12 2 2 4-4"></path>
-                </svg>
-              </div>
-              <div className="dash-metric-details">
-                <span className="dash-metric-label">Administradores</span>
-                <span className="dash-metric-value">{estadisticas.admins || 1}</span>
-                <span className="dash-metric-badge badge-celeste">Permisos de edición</span>
-              </div>
-            </div>
-
-            <div className="dash-metric-card">
-              <div className="dash-metric-icon bg-purple-soft text-purple">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </div>
-              <div className="dash-metric-details">
-                <span className="dash-metric-label">Usuarios Estándar</span>
-                <span className="dash-metric-value">{estadisticas.usuariosRegulares || 0}</span>
-                <span className="dash-metric-badge badge-muted">Cuentas comunes</span>
-              </div>
-            </div>
-
-            <div className="dash-metric-card highlight-celeste">
-              <div className="dash-metric-icon bg-celeste text-white lock-pulse">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                  <circle cx="12" cy="16" r="1.5" fill="currentColor"></circle>
-                </svg>
-              </div>
-              <div className="dash-metric-details">
-                <span className="dash-metric-label">Candado de Seguridad</span>
-                <span className="dash-metric-value">Activo 100%</span>
-                <span className="dash-metric-badge badge-celeste">Protegido JWT + Bcrypt</span>
-              </div>
-            </div>
-          </section>
-
-          {/* TABLA: TODOS LOS USUARIOS REALES DESDE MYSQL (CON OPCIONES ADMIN) */}
-          <section id="usuarios" className="dash-table-card">
-            <div className="dash-table-header-admin">
-              <div>
-                <h3>Usuarios Registrados en MySQL ({usuariosLista.length})</h3>
-                <p className="dash-table-subtitle">
-                  {esAdmin
-                    ? "Como Administrador puedes editar o eliminar usuarios directamente en MySQL."
-                    : "Listado de usuarios registrados en el sistema."}
-                </p>
-              </div>
-              {esAdmin && (
-                <div className="admin-status-tag">
-                  <span>🛠️ Herramientas de Admin Habilitadas</span>
-                </div>
-              )}
-            </div>
-
-            <div className="dash-table-responsive">
-              <table className="dash-table">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>USUARIO</th>
-                    <th>ROL</th>
-                    <th>CORREO</th>
-                    <th>FECHA REGISTRO</th>
-                    <th>ESTADO</th>
-                    {esAdmin && <th style={{ textAlign: "center" }}>ACCIONES</th>}
-                  </tr>
-                </thead>
-                <tbody>
-                  {usuariosLista.map(function (u) {
-                    const uInicial = u.nombre ? u.nombre.charAt(0).toUpperCase() : "U";
-                    const uFecha = u.created_at
-                      ? new Date(u.created_at).toLocaleDateString("es-ES", {
-                          day: "numeric",
-                          month: "numeric",
-                          year: "numeric",
-                        })
-                      : "Hoy";
-                    const esMiPropioUsuario = u.id === idUsuarioActual;
-
-                    return (
-                      <tr key={u.id}>
-                        <td className="table-id">#{u.id}</td>
-                        <td className="user-cell">
-                          <div className="table-avatar">{uInicial}</div>
-                          <div>
-                            <span className="table-user-name">{u.nombre}</span>
-                            {esMiPropioUsuario && <span className="current-user-tag">(Tú)</span>}
-                          </div>
+                  return (
+                    <tr key={u.id}>
+                      <td className="col-id">#{u.id}</td>
+                      <td className="col-name">
+                        <div className="table-user-row">
+                          <div className="mini-avatar">{uInicial}</div>
+                          <span>{u.nombre}</span>
+                          {esMiPropioUsuario && <span className="you-tag">(Tú)</span>}
+                        </div>
+                      </td>
+                      <td className="col-email">{u.correo}</td>
+                      <td>
+                        <span className={"role-pill-table role-" + (u.rol || "usuario")}>
+                          {u.rol}
+                        </span>
+                      </td>
+                      {esAdmin && (
+                        <td className="col-actions">
+                          <button
+                            type="button"
+                            className="btn-tbl btn-edit-sm"
+                            onClick={() => abrirModalEditar(u)}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            type="button"
+                            className={"btn-tbl btn-delete-sm " + (esMiPropioUsuario ? "disabled" : "")}
+                            disabled={esMiPropioUsuario}
+                            onClick={() => !esMiPropioUsuario && handleEliminarUsuario(u)}
+                          >
+                            Eliminar
+                          </button>
                         </td>
-                        <td>
-                          <span className={"table-role-pill role-" + (u.rol || "usuario")}>
-                            {u.rol === "admin" ? "admin" : "usuario"}
-                          </span>
-                        </td>
-                        <td className="table-email">{u.correo}</td>
-                        <td>{uFecha}</td>
-                        <td>
-                          <span className="table-status-pill status-active">
-                            Activo
-                          </span>
-                        </td>
-                        {/* HERRAMIENTAS Y BOTONES EXCLUSIVOS DEL ADMIN */}
-                        {esAdmin && (
-                          <td className="table-actions-cell">
-                            <button
-                              type="button"
-                              className="btn-action btn-edit"
-                              onClick={function () {
-                                abrirModalEditar(u);
-                              }}
-                              title="Editar usuario"
-                            >
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                              </svg>
-                              <span>Editar</span>
-                            </button>
+                      )}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
 
-                            <button
-                              type="button"
-                              className={"btn-action btn-delete" + (esMiPropioUsuario ? " disabled" : "")}
-                              onClick={function () {
-                                if (!esMiPropioUsuario) handleEliminarUsuario(u);
-                              }}
-                              disabled={esMiPropioUsuario}
-                              title={esMiPropioUsuario ? "No puedes eliminar tu propia cuenta" : "Eliminar usuario"}
-                            >
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <polyline points="3 6 5 6 21 6"></polyline>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                              </svg>
-                              <span>Eliminar</span>
-                            </button>
-                          </td>
-                        )}
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+        {/* TOKEN VAULT SENCILLO */}
+        <section id="token" className="content-card">
+          <div className="token-header-box">
+            <div>
+              <h2>Token JWT de Sesión</h2>
+              <p>Clave de acceso generada para tu sesión actual</p>
             </div>
-          </section>
+            <button className="copy-btn-primary" onClick={handleCopiarToken}>
+              {copiado ? "¡Token Copiado!" : "Copiar Token"}
+            </button>
+          </div>
 
-          {/* SECCIÓN ELEGANTE: TOKEN CIFRADO DE SEGURIDAD */}
-          <section id="seguridad" className="dash-token-vault-card">
-            <div className="token-vault-header">
-              <div className="token-vault-title-group">
-                <div className="vault-lock-badge">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    <circle cx="12" cy="16" r="1.5" fill="currentColor"></circle>
-                  </svg>
-                </div>
-                <div>
-                  <h3>Token Cifrado de Autenticación (JWT)</h3>
-                  <p>Cadena criptográfica activa asignada a tu sesión actual</p>
-                </div>
-              </div>
-
-              <div className="token-status-indicator">
-                <span className="pulse-dot"></span>
-                <span>Token Activo y Verificado</span>
-              </div>
-            </div>
-
-            <div className="token-display-box">
-              <div className="token-display-topbar">
-                <div className="token-tags">
-                  <span className="vault-tag">HS256</span>
-                  <span className="vault-tag">Rol: {rolUsuario}</span>
-                  <span className="vault-tag">60 Min</span>
-                </div>
-                <button className="copy-cipher-btn" onClick={handleCopiarToken}>
-                  {copiado ? (
-                    <>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                      <span>¡Copiado!</span>
-                    </>
-                  ) : (
-                    <>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                      </svg>
-                      <span>Copiar Token</span>
-                    </>
-                  )}
-                </button>
-              </div>
-
-              <div className="token-string-area">
-                <p className="token-string-text">
-                  {token || "Cargando token de seguridad..."}
-                </p>
-              </div>
-            </div>
-
-            <div className="token-vault-footer">
-              <div className="vault-info-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-                <span>Firmado con clave secreta del backend</span>
-              </div>
-              <div className="vault-info-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span>Sesión válida durante 1 hora</span>
-              </div>
-            </div>
-          </section>
-
-        </div>
+          <div className="token-text-box">
+            <code>{token || "Cargando token..."}</code>
+          </div>
+        </section>
       </main>
 
-      {/* ===================================================
-          MODAL INTERACTIVO PARA EDITAR USUARIO (SOLO ADMIN)
-         =================================================== */}
+      {/* MODAL DE EDICIÓN */}
       {usuarioEditando && (
-        <div className="dash-modal-overlay">
-          <div className="dash-modal-card">
-            <div className="dash-modal-header">
-              <div className="modal-title-group">
-                <div className="modal-icon-edit">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                  </svg>
-                </div>
-                <div>
-                  <h3>Editar Usuario #{usuarioEditando.id}</h3>
-                  <p>Actualizar datos y permisos en la base de datos MySQL</p>
-                </div>
-              </div>
-              <button type="button" className="modal-close-btn" onClick={cerrarModalEditar}>
-                ✕
-              </button>
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <div className="modal-header">
+              <h3>Editar Usuario #{usuarioEditando.id}</h3>
+              <button type="button" className="close-btn" onClick={cerrarModalEditar}>✕</button>
             </div>
 
-            <form onSubmit={handleGuardarEdicion} className="dash-modal-form">
-              <div className="form-group">
+            <form onSubmit={handleGuardarEdicion} className="modal-body">
+              <div className="form-field">
                 <label htmlFor="edit-nombre">Nombre Completo</label>
                 <input
                   id="edit-nombre"
                   type="text"
                   value={formNombre}
-                  onChange={function (e) {
-                    setFormNombre(e.target.value);
-                  }}
+                  onChange={(e) => setFormNombre(e.target.value)}
                   required
                 />
               </div>
 
-              <div className="form-group">
+              <div className="form-field">
                 <label htmlFor="edit-correo">Correo Electrónico</label>
                 <input
                   id="edit-correo"
                   type="email"
                   value={formCorreo}
-                  onChange={function (e) {
-                    setFormCorreo(e.target.value);
-                  }}
+                  onChange={(e) => setFormCorreo(e.target.value)}
                   required
                 />
               </div>
 
-              <div className="form-group">
+              <div className="form-field">
                 <label htmlFor="edit-rol">Rol en el Sistema</label>
                 <select
                   id="edit-rol"
                   value={formRol}
-                  onChange={function (e) {
-                    setFormRol(e.target.value);
-                  }}
-                  className="dash-modal-select"
+                  onChange={(e) => setFormRol(e.target.value)}
                 >
-                  <option value="usuario">usuario (Acceso estándar)</option>
-                  <option value="admin">admin (Control total y herramientas)</option>
+                  <option value="usuario">usuario</option>
+                  <option value="admin">admin</option>
                 </select>
               </div>
 
-              <div className="dash-modal-actions">
-                <button
-                  type="button"
-                  className="btn-modal-cancel"
-                  onClick={cerrarModalEditar}
-                  disabled={guardandoEdicion}
-                >
+              <div className="modal-footer">
+                <button type="button" className="btn-cancel" onClick={cerrarModalEditar} disabled={guardandoEdicion}>
                   Cancelar
                 </button>
-                <button
-                  type="submit"
-                  className="btn-modal-save"
-                  disabled={guardandoEdicion}
-                >
+                <button type="submit" className="btn-submit" disabled={guardandoEdicion}>
                   {guardandoEdicion ? "Guardando..." : "Guardar Cambios"}
                 </button>
               </div>
